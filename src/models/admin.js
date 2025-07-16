@@ -17,8 +17,7 @@ const adminSchema = new mongoose.Schema({
         required: true
     },
     refreshToken: {
-        type: String, 
-        required: true
+        type: String
     },
     forgetPasswordToken: String, 
     forgetPasswordExpiry: Date

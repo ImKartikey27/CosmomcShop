@@ -48,9 +48,11 @@ export async function POST(request: NextRequest){
     })
     response.cookies.set("accessToken", accessToken, {
         httpOnly: true,
+        maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY!)
     })
     response.cookies.set("refreshToken", refreshToken, {
-        httpOnly: true
+        httpOnly: true,
+        maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY!)
     })
     return response;
         

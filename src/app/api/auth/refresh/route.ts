@@ -14,39 +14,36 @@ export async function POST(request: NextRequest){
         const refreshToken = request.cookies.get("refreshToken")?.value;
         if(!refreshToken){
             return NextResponse.json({
-                message: "You are not logged in",
-                status: 401
-            })
+                message: "You are not logged in"
+            },{status: 401})
         }
         //verify the refresh token 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!) as CustomJwtPayload
         if(!decoded){
             return NextResponse.json({
-                message: "Invalid refresh token",
-                status: 401
-            })
+                message: "Invalid refresh token"
+            },{status: 401})
         }
         //find the admin in the database
         const admin = await Admin.findById(decoded.id)
         if(!admin){
             return NextResponse.json({
-                message: "Admin not found",
-                status: 404
-            })
+                message: "Admin not found"
+            },{status: 404})
         }
         //create new access token 
         const accessToken = jwt.sign({
             id: admin._id,
             email: admin.email
         }, process.env.ACCESS_TOKEN_SECRET!,
-        {expiresIn: parseInt(process.env.ACCESS_TOKEN_EXPIRY!)})
+        {expiresIn: "15m"})
 
         //create a new refresh token 
         const newRefreshToken = jwt.sign({
             id: admin._id,
             email: admin.email
         }, process.env.REFRESH_TOKEN_SECRET!,
-        {expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRY!)})
+        {expiresIn: "7d"})
 
         admin.refreshToken = newRefreshToken
         await admin.save()
@@ -54,21 +51,20 @@ export async function POST(request: NextRequest){
         const response = NextResponse.json({
             message: "Token Refreshed Successfully",
             success: true,
-        })
+        },{status: 200})
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
-            maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRY!)
+            maxAge: 15*60
         })
         response.cookies.set("refreshToken", newRefreshToken, {
             httpOnly: true,
-            maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRY!)
+            maxAge: 7*24*60*60
         })
         return response;
         
     } catch (error:any) {
         return NextResponse.json({
-            error: error.message,
-            status: 500
-        })
+            error: error.message
+        }, {status: 500})
     }
 }

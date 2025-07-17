@@ -16,18 +16,16 @@ export async function POST(request: NextRequest){
 
         if(!refreshToken){
             return NextResponse.json({
-                error: "You are not logged in",
-                status: 401
-            })
+                error: "You are not logged in"
+            }, {status: 401})
         }
         
 
         const admin = await Admin.findOne({refreshToken})
         if(!admin){
             return NextResponse.json({
-                error: "Admin not found",
-                status: 404
-            })
+                error: "Admin not found"
+            }, {status: 404})
         }
         admin.refreshToken = ""
         await admin.save()
@@ -37,8 +35,12 @@ export async function POST(request: NextRequest){
         const response = NextResponse.json({
             message: "Logout SuccessFull",
             success: true
-        })
+        }, {status: 200})
         response.cookies.set("accessToken","", {
+            httpOnly: true,
+            expires: new Date(0)
+        })
+        response.cookies.set("refreshToken","",{
             httpOnly: true,
             expires: new Date(0)
         })
@@ -46,8 +48,7 @@ export async function POST(request: NextRequest){
         
     } catch (error:any) {
         return NextResponse.json({
-            error: `Logout Failed: ${error.message}`,
-            status: 500
-        })
+            error: `Logout Failed: ${error.message}`
+        }, {status: 500})
     }
 }

@@ -11,21 +11,18 @@ export async function POST(request:NextRequest){
         const product = await Product.findById(id)
         if(!product){
             return NextResponse.json({
-                message: "Product not found",
-                status: 404
-            })
+                message: "Product not found"
+            },{status: 404})
         }
         return NextResponse.json({
             product,
-            message: "Product Fetched Successfully",
-            status: 200
-        })
+            message: "Product Fetched Successfully"
+        },{status: 200})
         
     } catch (error:any) {
         return NextResponse.json({
-            message: error.message,
-            status: 500
-        })
+            message: error.message
+        },{status: 500})
     }
     
 }

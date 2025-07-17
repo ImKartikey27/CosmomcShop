@@ -13,9 +13,8 @@ export async function POST(request:NextRequest){
         // Validate username
         if (!username) {
             return NextResponse.json({
-                message: "Username is required",
-                status: 400
-            });
+                message: "Username is required"
+            },{status: 400});
         }
 
         let user = await User.findOne({ username });
@@ -39,7 +38,7 @@ export async function POST(request:NextRequest){
         const response = NextResponse.json({
             message: "Login Successful",
             success: true
-        });
+        }, {status: 200});
         response.cookies.set("token", token, {
             httpOnly: true,
             maxAge: parseInt(process.env.TOKEN_EXPIRY!),
@@ -49,9 +48,8 @@ export async function POST(request:NextRequest){
     } catch (error:any) {
 
         return NextResponse.json({
-            message: error.message,
-            status: 500
-        })
+            message: error.message
+        },{status: 500})
         
     }
 }

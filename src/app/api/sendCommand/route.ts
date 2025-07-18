@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
   const udpClient = dgram.createSocket('udp4');
   const message = Buffer.from(command);
 
-  const HOST = '64.227.165.17'; // Replace with your Minecraft server IP
-  const PORT = 8090;
+  const HOST = 'in1.betterclouds.xyz'; // Replace with your Minecraft server IP
+  const PORT = 25577;
 
   return new Promise<Response>((resolve) => {
     udpClient.send(message, PORT, HOST, (err) => {

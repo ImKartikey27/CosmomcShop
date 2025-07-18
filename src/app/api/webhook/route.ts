@@ -10,25 +10,6 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-
-        const secret = process.env.TOKEN_SECRET as string;
-
-        // Read raw body buffer
-        const rawBody = await req.arrayBuffer();
-        const rawBuffer = Buffer.from(rawBody);
-
-        // Generate hash
-        const bodyHash = crypto
-            .createHash('sha256')
-            .update(rawBuffer.toString(), 'utf-8')
-            .digest('hex');
-
-        const finalHash = crypto
-            .createHmac('sha256', secret)
-            .update(bodyHash)
-            .digest('hex');
-
-        console.log('finalHash', finalHash);
         
         // Verify the signature
         const reqBody: WebhookRequest = await req.json()
@@ -42,6 +23,6 @@ export async function POST(req: NextRequest) {
                 
     } catch (error) {
         console.error('Error processing webhook:', error);
-        return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
+        return NextResponse.json({ error: `Failed to process webhook: ${error}` }, { status: 500 });
     }
 }

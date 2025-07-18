@@ -88,11 +88,11 @@ sequenceDiagram
 - **RESTful API** to support frontend operations
 - **JWT Authentication** for secure user sessions
 - **MongoDB Database** integration
-- **Payment Integration** (Stripe/Razorpay)
+- **Payment Integration** (Tebex)
 - **Minecraft Plugin Integration** via HTTP/Socket
 
 ### 🟦 C. Minecraft Plugin (Java + Spigot/Paper)
-- **HTTP Server** receives commands from backend
+- **UDP Server** receives commands from backend
 - **Command Execution** (/give, /crate, /rank)
 - **Request Verification** using shared secret
 - **Status Reporting** back to backend

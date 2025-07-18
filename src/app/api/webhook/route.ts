@@ -6,18 +6,11 @@ export async function POST(req: NextRequest) {
         id: string,
         type: string,
         date: string,
-        subject: Object;
+        subject: object;
     }
 
     try {
-        const reqBody: WebhookRequest = await req.json()
-        const { id, type } = reqBody
-        if (type == "validation.webhook") {
-            return NextResponse.json({
-                id: id
-            }, { status: 200 });
 
-        }
         const secret = process.env.TOKEN_SECRET as string;
 
         // Read raw body buffer
@@ -36,13 +29,17 @@ export async function POST(req: NextRequest) {
             .digest('hex');
 
         console.log('finalHash', finalHash);
+        
+        // Verify the signature
+        const reqBody: WebhookRequest = await req.json()
+        const { id, type } = reqBody
+        if (type == "validation.webhook") {
+            return NextResponse.json({
+                id: id
+            }, { status: 200 });
 
-        // (Optional) Parse JSON if needed after verifying
-        const jsonBody = JSON.parse(rawBuffer.toString());
-        console.log('Received JSON:', jsonBody);
-
-        // Return response
-        return NextResponse.json({ message: 'Webhook received', hash: finalHash });
+        }
+                
     } catch (error) {
         console.error('Error processing webhook:', error);
         return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });

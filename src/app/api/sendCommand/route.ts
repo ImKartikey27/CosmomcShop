@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
   const HOST = '64.227.165.17'; // Replace with your Minecraft server IP
   const PORT = 8090;
 
-  return new Promise((resolve) => {
-    
-
+  return new Promise<Response>((resolve) => {
     udpClient.send(message, PORT, HOST, (err) => {
       if (err) {
         udpClient.close();

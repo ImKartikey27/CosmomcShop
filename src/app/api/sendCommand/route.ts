@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   const PORT = 8090;
 
   return new Promise((resolve) => {
-    let timeout:NodeJS.Timeout;
+    
 
     udpClient.send(message, PORT, HOST, (err) => {
       if (err) {
@@ -40,8 +40,8 @@ export async function POST(req: NextRequest) {
         })
       );
     });
-
-    timeout = setTimeout(() => {
+    
+    const timeout = setTimeout(() => {
       udpClient.close();
       resolve(
         new Response(JSON.stringify({ error: 'No response from server' }), {
@@ -50,4 +50,6 @@ export async function POST(req: NextRequest) {
       );
     }, 3000); // timeout in 3s
   });
+
+    
 }

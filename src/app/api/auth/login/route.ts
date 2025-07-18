@@ -70,9 +70,14 @@ export async function POST(request: NextRequest){
         });
         return response;
         
-    } catch (error:any) {
-        return NextResponse.json({
+    } catch (error:unknown) {
+        if(error instanceof Error){
+            return NextResponse.json({
             error:error.message,
+        },{status: 500})   
+        } 
+        return NextResponse.json({
+            error:`Unknown Error at login route`,
         },{status: 500})
     }
 }

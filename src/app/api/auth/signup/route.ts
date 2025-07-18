@@ -1,7 +1,6 @@
 import { NextRequest,NextResponse } from "next/server";
 import Admin from "@/models/admin.js";
 import {connect} from "@/dbconfig/dbConfig"
-import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 connect()
@@ -71,10 +70,14 @@ export async function POST(request: NextRequest){
         return response;
 
         
-    } catch (error:any) {
-
+    } catch (error:unknown) {
+        if(error instanceof Error){
+            return NextResponse.json({
+            error:error.message,
+        },{status: 500})   
+        } 
         return NextResponse.json({
-            message: error.message
+            error:`Unknown Error at signup route`,
         },{status: 500})
         
     }

@@ -45,10 +45,15 @@ export async function POST(request:NextRequest){
         });
         return response;
         
-    } catch (error:any) {
+    } catch (error:unknown) {
 
+        if(error instanceof Error){
+            return NextResponse.json({
+            error:error.message,
+        },{status: 500})   
+        } 
         return NextResponse.json({
-            message: error.message
+            error:`Unknown Error at user login route`,
         },{status: 500})
         
     }

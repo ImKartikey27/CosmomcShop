@@ -1,13 +1,9 @@
 import {connect} from "@/dbconfig/dbConfig"
 import { NextRequest, NextResponse } from "next/server"
 import Admin from "@/models/admin.js"
-import jwt, { JwtPayload } from "jsonwebtoken"
 
 connect()
 
-interface CustomJwtPayload extends JwtPayload{
-    id: string;
-}
 
 export async function POST(request: NextRequest){
     try {
@@ -46,9 +42,15 @@ export async function POST(request: NextRequest){
         })
         return response;
         
-    } catch (error:any) {
+    } catch (error:unknown) {
+        if(error instanceof Error){
+            return NextResponse.json({
+                error: `Logout Failed: ${error.message}`
+            }, {status: 500})
+        }
+    
         return NextResponse.json({
-            error: `Logout Failed: ${error.message}`
+            error: `Logout Failed with an unknown error`
         }, {status: 500})
     }
 }

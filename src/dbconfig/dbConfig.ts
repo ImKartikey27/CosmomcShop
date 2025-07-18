@@ -17,7 +17,7 @@ export async function connect(){
             process.exit()
         })
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         console.log("Something went Wrong while connection with MongoDB", error);
         
     }

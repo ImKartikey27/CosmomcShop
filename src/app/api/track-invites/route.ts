@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import Invite from "../../../models/invite";
 import { connect } from "@/dbconfig/dbConfig";
 
+connect();
+
 // interface joinedUser {
 //     username: string;
 //     userId: string;
@@ -9,7 +11,6 @@ import { connect } from "@/dbconfig/dbConfig";
 // }
 
 export async function POST(req: Request) {
-    await connect();
 
     try {
         const data = await req.json();

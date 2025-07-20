@@ -2,8 +2,10 @@ import { connect } from "@/dbconfig/dbConfig";
 import Invite from "../../../../models/invite";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
     connect();
+
+export async function POST(request: NextRequest) {
+
     console.log("Received POST request to /api/track-invites/deduct-uses");
 
     Invite.updateMany(

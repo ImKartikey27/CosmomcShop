@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Invite from "@/models/Invite";
+import Invite from "../../../models/invite";
 import { connect } from "@/dbconfig/dbConfig";
 
 // interface joinedUser {

@@ -1,5 +1,5 @@
 import { connect } from "@/dbconfig/dbConfig";
-import Invite from "@/models/Invite";
+import Invite from "../../../../models/invite";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

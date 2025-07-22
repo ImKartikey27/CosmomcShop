@@ -35,7 +35,7 @@ export async function POST(request: NextRequest){
         }
         if(!userCart){
             //create a new cart
-            const newCart = await Cart.create({
+            await Cart.create({
                 userId,
                 products: [
                     {
@@ -70,9 +70,9 @@ export async function POST(request: NextRequest){
         }, {status: 200})
         
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         return NextResponse.json({
-            error: error.message,
+            error: error,
             message: "Something went wrong here "
         },{status: 500})
     }

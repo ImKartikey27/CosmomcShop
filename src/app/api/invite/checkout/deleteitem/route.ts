@@ -7,8 +7,6 @@ connect();
 
 export async function POST(request: NextRequest) {
     try {
-        console.log("Delete route is hit");
-        
         const reqBody = await request.json();
         const { userId, productId, quantity } = reqBody;
 
@@ -92,9 +90,9 @@ export async function POST(request: NextRequest) {
             }
         }, { status: 200 });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json({
-            error: error.message,
+            error: error,
             message: "Something went wrong while removing item from cart"
         }, { status: 500 });
     }

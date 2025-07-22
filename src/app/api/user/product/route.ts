@@ -10,6 +10,18 @@ export async function POST(request:NextRequest){
         const {id} = reqBody
         const product = await Product.findById(id)
         if(!product){
+            //create a new product
+            // const newProduct = await Product.create({
+            //     name: "New Product 2",
+            //     price: 20,
+            //     description: "New Product Description",
+            //     category: "rank",
+            //     image: "https://via.placeholder.com/150"
+            // })
+            // return NextResponse.json({
+            //     product: newProduct,
+            //     message: "Product Created Successfully"
+            // },{status: 200})
             return NextResponse.json({
                 message: "Product not found"
             },{status: 404})

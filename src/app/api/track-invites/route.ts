@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Invite from "../../../models/invite";
+import Invite from "@/models/invite.js";
 import { connect } from "@/dbconfig/dbConfig";
 
 connect();
@@ -22,6 +22,8 @@ export async function POST(req: Request) {
             const alreadyJoined = existing.joinedUsers.some((u: { userId: string }) => u.userId === joinedUser.id);
 
             if (!alreadyJoined) {
+                //existing.uses +=1
+                existing.invites +=1;
                 existing.uses = uses;
                 existing.joinedUsers.push({
                     userId: joinedUser.id,
@@ -35,6 +37,7 @@ export async function POST(req: Request) {
                 inviter,
                 code,
                 uses,
+                invites: 1, // :1 start with 1 use for the first user,
                 joinedUsers: [
                     {
                         userId: joinedUser.id,

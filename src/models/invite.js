@@ -8,6 +8,7 @@ const InviteSchema = new mongoose.Schema({
   },
   code: String,
   uses: Number,
+  invites: Number,
   joinedUsers: [
     {
       username: String,
@@ -17,4 +18,7 @@ const InviteSchema = new mongoose.Schema({
   ]
 });
 
-export default mongoose.models.Invite || mongoose.model("Invite", InviteSchema);
+
+const Invite =  mongoose.models.Invite || mongoose.model("Invite", InviteSchema);
+
+export default Invite

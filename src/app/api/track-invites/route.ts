@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         const data = await req.json();
         const { inviter, code, uses, joinedUser } = data;
 
-        const existing = await Invite.findOne({ _id: inviter._id, code });
+        const existing = await Invite.findOne({ "inviter.id": inviter.id, code });
 
         if (existing) {
             const alreadyJoined = existing.joinedUsers.some((u: { userId: string }) => u.userId === joinedUser.id);

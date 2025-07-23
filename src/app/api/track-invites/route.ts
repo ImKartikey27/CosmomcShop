@@ -10,13 +10,15 @@ connect();
 //     joinedAt: Date;
 // }
 
+// IMP: We are not manipulating the uses here, instead we are using joinedUser.length to determine the number of uses.
+
 export async function POST(req: Request) {
 
     try {
         const data = await req.json();
         const { inviter, code, uses, joinedUser } = data;
 
-        const existing = await Invite.findOne({ "inviter.id": inviter.id, code });
+        const existing = await Invite.findOne({ _id: inviter._id, code });
 
         if (existing) {
             const alreadyJoined = existing.joinedUsers.some((u: { userId: string }) => u.userId === joinedUser.id);
